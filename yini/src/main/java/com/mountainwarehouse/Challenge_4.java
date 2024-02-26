@@ -5,7 +5,7 @@ public class Challenge_4 {
 	/**
 	 * For this task you will have to calculate and return the stamp duty of a
 	 * property you have purchased.
-	 * Stamp duty is a type of tax applied by the UK goverment when you
+	 * Stamp duty is a type of tax applied by the UK government when you
 	 * purchase a property, this tax works in price brackets - i.e the same way
 	 * income tax does.
 	 * Less than £300,000 there is 0% tax.
@@ -25,23 +25,31 @@ public class Challenge_4 {
 	 * @return Total stamp duty
 	 */
 	public static int StampDuty(int propertyPrice) {
-		if (propertyPrice <= 300001)
+		// Thresholds for different tax tiers
+		int taxFreePrice = 300000;
+		int priceTier1 = 925000;
+		int priceTier2 = 1500000;
+		
+		// Tax rates for different tax tiers
+		double taxTier1 = 0.05;
+		double taxTier2 = 0.1;
+		double taxTier3 = 0.12;
+		if (propertyPrice < 300001) {
 			return 0;
+		}
 
-		int startingValueForTax = propertyPrice;
 		int tax = 0;
 
-		if (startingValueForTax > 1500000) {
-			throw new RuntimeException("Not implemented");
-		}
-
-		if (startingValueForTax > 925000) {
-			throw new RuntimeException("Not implemented");
-		}
-
-		if (startingValueForTax > 300000) {
-			throw new RuntimeException("Not implemented");
-		}
+		if (propertyPrice <= priceTier1) {        
+	        tax += Math.round((propertyPrice - taxFreePrice) * taxTier1);
+	    } else if (propertyPrice <= priceTier2) {
+	        tax += Math.round((priceTier1 - taxFreePrice) * taxTier1);
+	        tax += Math.round((propertyPrice - priceTier1) * taxTier2);
+	    } else {
+	        tax += Math.round((priceTier1 - taxFreePrice) * taxTier1);
+	        tax += Math.round((priceTier2 - priceTier1) * taxTier2);
+	        tax += Math.round((propertyPrice - priceTier2) * taxTier3);
+	    }
 
 		return tax;
 	}
