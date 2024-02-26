@@ -19,13 +19,29 @@ public class Challenge_3 {
     /// <returns>The branch with the best performing sales</returns>
     public static String CalculateBestBranch(SalesItem[] sales) {
         HashMap<String, Double> branchSales = new HashMap<String, Double>();
-
+        
         // TODO: Add branch sales to Hash Map
 
+        for (SalesItem item : sales) {
+        	if (branchSales.containsKey(item.Branch)) {
+        		Double newSales = branchSales.get(item.Branch) + item.TotalSales;
+        		branchSales.replace(item.Branch, newSales);
+        	} else {
+        		branchSales.put(item.Branch, item.TotalSales);
+        	}
+        }
+        
         // TODO: Sort/get entry with highest sales value
-
+        
+        Object[] branches = branchSales.keySet().toArray();
+        String bestBranch = branches[0].toString();
+        for (Object branch : branches) {
+        	if (branchSales.get(bestBranch) < branchSales.get(branch.toString())) {
+        		bestBranch = branch.toString();
+        	}
+        }
         // TODO: Return branch
 
-        return "";
+        return bestBranch;
     }
 }
